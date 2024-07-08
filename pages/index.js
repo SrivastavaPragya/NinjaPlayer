@@ -5,10 +5,30 @@ import styles from "@/styles/Home.module.css";
 import Hero from "@/components/Home/Hero";
 import Search from "@/components/Home/Search";
 import GameList from "@/components/Home/GameList";
-
+import { getFirestore, doc, setDoc, getDoc, 
+  collection, getDocs, query, where } from "firebase/firestore";
+  import app from '../shared/FirebaseConfig'
+import { useEffect, useState } from "react";
+import Posts from "@/components/Home/Posts";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const db = getFirestore(app);
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    getPost();
+  }, []);
+
+  const getPost = async () => {
+    const querySnapshot = await getDocs(collection(db, "posts"));
+    const postsArray = [];
+    querySnapshot.forEach((doc) => {
+     
+      postsArray.push(doc.data());
+    });
+    setPosts(postsArray);
+  };
   return (
     <>
       <Head>
@@ -22,6 +42,7 @@ export default function Home() {
       <Hero/>
       <Search/>
       <GameList/>
+     { posts?<Posts posts={posts}/>:null} 
       </div>
       </>
     </>
