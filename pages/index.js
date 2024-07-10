@@ -10,6 +10,8 @@ import { getFirestore, doc, setDoc, getDoc,
   import app from '../shared/FirebaseConfig'
 import { useEffect, useState } from "react";
 import Posts from "@/components/Home/Posts";
+import PostItem from "@/components/Home/PostItem";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
@@ -43,6 +45,8 @@ export default function Home() {
       <Search/>
       <GameList/>
      { posts?<Posts posts={posts}/>:null} 
+     <PostItem/>
+  
       </div>
       </>
     </>
